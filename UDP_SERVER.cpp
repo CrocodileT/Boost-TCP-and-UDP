@@ -41,8 +41,18 @@ void udp_server::handle_receive1(const boost::system::error_code &error,
             delete[] s;
             in << remote_endpoint_.address().to_string() + " " +  recv_buffer_<< std::endl;
             udp_server::start_receive();
+
+            socket_.async_send_to(boost::asio::buffer("ok", 3), remote_endpoint_,
+                boost::bind(&udp_server::handle_send, this,
+                            boost::asio::placeholders::error,
+                            boost::asio::placeholders::bytes_transferred));
       }
 }
+
+void udp_server::handle_send(const boost::system::error_code& /*error*/,
+      std::size_t /*bytes_transferred*/)
+  {
+  }
 
 int main()
 {
