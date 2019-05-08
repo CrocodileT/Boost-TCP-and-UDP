@@ -27,6 +27,9 @@ bool write_msg(udp::socket &socket, std::string msg, udp::endpoint endpoint) {
 		std::cout << "send failed: " << msg << std::endl;
 		return false;
 	}
+
+	char OK[3];
+	socket.receive_from(OK, endpoint);
 	return true;
 }
 
